@@ -12,14 +12,28 @@
 		pointcut: 끼어드는 위치
 		advice: 실행코드
 	 -->
+	 
+	 <!-- Spring bean 객체 등록 (Target) -->
+	 <bean id="serviceImp" class="kr.co.aoptest.part2.ServiceImp"></bean>
+	 
+	 <!-- Spring bean 객체 등록 (Advice) → advice라는거야 aspect라는거야 뭐야 -->
+	 <bean id="adviceCommon" class="kr.co.aoptest.part2.AdviceCommon"></bean>
 	
 	<!-- pointcut과 advice 정의 -->
 	<aop:config>
+		<aop:pointcut expression="execution(* kr.co.aoptest.part2.ServiceImp.first(..))" id="one" />
+		<aop:pointcut expression="execution(* kr.co.aoptest.part2.ServiceImp.second(..))" id="two" />
+		<aop:aspect ref="adviceCommon"> <!-- Advice Spring bean 참조 -->
+			<aop:before method="commMethod1" pointcut-ref="one" />
+			<aop:after method="commMethod2" pointcut-ref="two" />
+		</aop:aspect>
+		<!-- 
 		<aop:pointcut expression="Test.say(..)" id="one" />
 		<aop:aspect>
 			<aop:before method="test1" pointcut-ref="one" />
 			<aop:after method=""/>
 		</aop:aspect>
+		 -->
 	</aop:config>
 
 
